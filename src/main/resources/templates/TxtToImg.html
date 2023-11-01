@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form action="/TxtToImg" method="POST">
+        <div id="test">
+            <label for="param">Введите промт изображения</label>
+            <input type="text" name="param" id="param" placeholder="Введите промт изображения">
+            <button type="submit">Submit</button>
+            </br>
+            <img th:src="'data:image/jpeg;charset=utf-8;base64,' + ${imgSrc}" alt="1">
+        </div>
+    </form>
+</body>
+<script>
+</script>
+</html>

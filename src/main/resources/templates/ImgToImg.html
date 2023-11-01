@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Загрузка изображения</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<form action="/ImgToImg" method="POST" enctype="multipart/form-data">
+    <div id="drop-area">
+        <p>Перетащите изображение сюда или выберите его на компьютере</p>
+        <input type="file" name="fileInput" id="fileInput" accept="image/*" />
+        </br>
+        <img id="image-preview" src="" alt="Предварительный просмотр" />
+        </br>
+        <label for="param">Введите промт изображения</label>
+        <input type="text" name="param" id="param" placeholder="Введите промт изображения">
+        <button type="submit">Submit</button>
+        </br>
+        <img th:src="'data:image/jpeg;charset=utf-8;base64,' + ${imgSrc}" alt="1">
+    </div>
+</form>
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('image-preview');
+
+    // Предотвратите стандартное поведение при перетаскивании файлов
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('dragover');
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    // Обработка выбора файла с помощью input[type="file"]
+    fileInput.addEventListener('change', () => {
+        handleFiles(fileInput.files);
+    });
+
+    // Функция для обработки загруженных файлов
+    function handleFiles(files) {
+        const file = files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+</body>
+</html>
